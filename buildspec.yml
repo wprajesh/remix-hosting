@@ -16,5 +16,8 @@ phases:
       - echo "Build completed. Artifacts ready for deployment."
 artifacts:
   files:
-    - "build/**/*"
-    - "package.json"
+    - package.json
+    - package-lock.json
+    - public/**/*
+    - build/**/*
+    - .ebextensions/**/*
