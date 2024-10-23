@@ -2,6 +2,8 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      nodejs: 20
     commands:
       - echo "Installing dependencies..."
       - npm install
@@ -21,3 +23,5 @@ artifacts:
     - public/**/*
     - build/**/*
     - .ebextensions/**/*
+  base-directory: "."
+  discard-paths: no
