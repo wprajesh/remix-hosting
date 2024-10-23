@@ -8,7 +8,7 @@ phases:
   build:
     commands:
       - echo "Running Prisma migrations..."
-      - npx prisma migrate deploy
+      #- npx prisma migrate deploy
       - echo "Building the application..."
       - npm run build # Optional, only if you have a build step
   post_build:
