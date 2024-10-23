@@ -3,7 +3,7 @@ export default function Dd() {
     <>
       <div style={{ margin: "150px" }}>
         <h1>
-          Just Another <strong>route</strong>
+          Just Another <strong>routes</strong>
         </h1>
       </div>
     </>
