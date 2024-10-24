@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model IAgreeLegacyMerchant {
+  id          String    @id
+  shop        String    @unique
+  scriptTagId String
+  migratedAt  DateTime?
+}
+
+model Session {
+  id            String    @id
+  shop          String
+  state         String
+  isOnline      Boolean   @default(false)
+  scope         String?
+  expires       DateTime?
+  accessToken   String
+  userId        BigInt?
+  firstName     String?
+  lastName      String?
+  email         String?
+  accountOwner  Boolean   @default(false)
+  locale        String?
+  collaborator  Boolean?  @default(false)
+  emailVerified Boolean?  @default(false)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model stores {
+  id                  BigInt   @default(autoincrement())
+  access_token        String?
+  charge_id           BigInt?
+  installation_nonce  String?  @db.VarChar(250)
+  is_charge_activated Boolean?
+  name                String?  @db.VarChar(250)
+  settings            String?
+
+  @@ignore
+}
+
+model Name {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+}

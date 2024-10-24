@@ -10,9 +10,11 @@ phases:
   build:
     commands:
       - echo "Running Prisma migrations..."
-      #- npx prisma migrate deploy
+      - npx prisma migrate deploy
+      - echo "Generating Prisma Client..."
+      - npx prisma generate
       - echo "Building the application..."
-      - npm run build # Optional, only if you have a build step
+      - npm run build
   post_build:
     commands:
       - echo "Build completed. Artifacts ready for deployment."
@@ -22,6 +24,7 @@ artifacts:
     - package-lock.json
     - public/**/*
     - build/**/*
+    - node_modules/.prisma/**/*
     - .ebextensions/**/*
   base-directory: "."
   discard-paths: no
