@@ -5,16 +5,31 @@ phases:
     runtime-versions:
       nodejs: 20
     commands:
-      - echo "Installing dependencies..."
+      - echo "Installing all dependencies..."
       - npm install
-  build:
+  pre_build:
     commands:
       - echo "Running Prisma migrations..."
       - npx prisma migrate deploy
       - echo "Generating Prisma Client..."
       - npx prisma generate
+      # Copy Prisma client files to a temporary location to preserve them
+      - mkdir -p prisma-client-temp
+      - cp -R node_modules/.prisma prisma-client-temp/
+
+  build:
+    commands:
       - echo "Building the application..."
       - npm run build
+      # Remove all node_modules to reinstall only production dependencies
+      - echo "Removing all node_modules to reinstall only production dependencies..."
+      - rm -rf node_modules
+      - npm install --production
+      # Restore the Prisma client files
+      - mkdir -p node_modules/.prisma
+      - cp -R prisma-client-temp/. node_modules/.prisma
+      # Clean up the temporary folder
+      - rm -rf prisma-client-temp
   post_build:
     commands:
       - echo "Build completed. Artifacts ready for deployment."
@@ -24,7 +39,7 @@ artifacts:
     - package-lock.json
     - public/**/*
     - build/**/*
-    - node_modules/.prisma/**/*
+    - node_modules/**/*
     - .ebextensions/**/*
   base-directory: "."
   discard-paths: no
